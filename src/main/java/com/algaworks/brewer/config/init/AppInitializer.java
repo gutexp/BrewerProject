@@ -5,18 +5,20 @@ import javax.servlet.Filter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.algaworks.brewer.config.JPAConfig;
+import com.algaworks.brewer.config.ServiceConfig;
 import com.algaworks.brewer.config.WebConfig;
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
-	protected Class<?>[] getRootConfigClasses() {
+	protected Class<?>[] getRootConfigClasses() {	//backend
 		// TODO Auto-generated method stub
-		return null;
+		return new Class<?>[] {JPAConfig.class, ServiceConfig.class};
 	}
 
 	@Override
-	protected Class<?>[] getServletConfigClasses() {
+	protected Class<?>[] getServletConfigClasses() {	//servers controllers e front
 		// TODO Auto-generated method stub
 		return new Class<?>[] { WebConfig.class};
 	}
