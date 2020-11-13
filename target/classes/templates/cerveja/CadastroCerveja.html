@@ -11,6 +11,7 @@
 
 <body>
 <section layout:fragment="conteudo">
+	<!-- this is a comment -->
 
 	<div class="page-header">
 		<div class="container-fluid">
@@ -22,14 +23,17 @@
 
 	<div class="container-fluid">
 
-		<!-- inclusão das mensagens de sucesso -->
-		<th:block th:include="fragments/MensagemSucesso" ></th:block>
-
+		
 		<form method="POST" th:object="${cerveja}" class="form-vertical  js-form-loading">
-
+			
+			<!-- inclusão das mensagens de sucesso -->
+			<!-- <th:block th:include="fragments/MensagemSucesso" ></th:block> -->
 
 			<!-- incluindo nossas mensagens de erro -->
-			<th:block th:include="fragments/MensagensErroValidacao" ></th:block>
+			<!-- <th:block th:include="fragments/MensagensErroValidacao" ></th:block> -->
+
+			<!-- esse brewer message tá substituindo as duas linhas de código acima -->
+			<brewer:message/>
 	
 			<div class="row">
 				<div class="col-sm-2  form-group" brewer:classforerror="sku" >
