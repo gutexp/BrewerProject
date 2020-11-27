@@ -2,9 +2,8 @@ package com.algaworks.brewer.controller;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -28,16 +27,14 @@ import com.algaworks.brewer.service.CadastroCervejaService;
 @RequestMapping("/cervejas")
 public class CervejasController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(CervejasController.class);
-	
-	@Autowired
-	private Cervejas cervejas;
-	
 	@Autowired
 	private Estilos estilos;
 	
 	@Autowired
 	private CadastroCervejaService cadastroCervejaService;
+	
+	@Autowired
+	private Cervejas cervejas;
 
 	@RequestMapping("/novo")
 	public ModelAndView novo(Cerveja cerveja) {
@@ -45,7 +42,6 @@ public class CervejasController {
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("estilos", estilos.findAll());		//isso irá retornar uma lista com todos os estilos, lembrando que o metodo findAll já vem quando declaramos a interface Estilos como um repositório
 		mv.addObject("origens", Origem.values());
-
 		return mv;
 	}
 	
@@ -57,7 +53,6 @@ public class CervejasController {
 		
 		cadastroCervejaService.salvar(cerveja);
 		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso!");
-		
 		return new ModelAndView("redirect:/cervejas/novo");
 	}
 	
@@ -68,8 +63,8 @@ public class CervejasController {
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("origens", Origem.values());
 		
-		mv.addObject("cervejas", cervejas.filtrar(cervejaFilter ,  pageable));
-		
+		Page<Cerveja> pagina = cervejas.filtrar(cervejaFilter, pageable);
+		mv.addObject("pagina", pagina);
 		return mv;
 	}
 	
