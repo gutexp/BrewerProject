@@ -63,7 +63,7 @@ public class CervejasController {
 		mv.addObject("estilos", estilos.findAll());
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("origens", Origem.values());
-		
+				
 		PageWrapper<Cerveja> paginaWrapper = new PageWrapper<> (cervejas.filtrar(cervejaFilter, pageable), httpServletRequest);
 		mv.addObject("pagina", paginaWrapper);
 		return mv;
