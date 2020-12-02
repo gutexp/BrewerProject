@@ -49,6 +49,8 @@
 		<jackson-core.version>2.7.5</jackson-core.version>
 		<!-- thumbnailator - thumb generation -->
 		<thumbnailator.version>0.4.8</thumbnailator.version>
+		<!-- thymeleaf extra data attribute -->
+		<thymeleaf-extras-data-attribute.version>2.0.1</thymeleaf-extras-data-attribute.version>
 		
 	</properties>
 
@@ -203,6 +205,14 @@
 			<groupId>net.coobird</groupId>
 			<artifactId>thumbnailator</artifactId>
 			<version>${thumbnailator.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- thymeleaf extra data attribute -->
+		<dependency>
+			<groupId>com.github.mxab.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-data-attribute</artifactId>
+			<version>${thymeleaf-extras-data-attribute.version}</version>
 			<scope>compile</scope>
 		</dependency>
 	
