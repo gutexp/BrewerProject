@@ -11,115 +11,130 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.group.GroupSequenceProvider;
+
+import com.algaworks.brewer.model.validation.ClienteGroupSequenceProvider;
+import com.algaworks.brewer.model.validation.group.CnpjGroup;
+import com.algaworks.brewer.model.validation.group.CpfGroup;
 
 @Entity
 @Table(name = "cliente")
+@GroupSequenceProvider(ClienteGroupSequenceProvider.class)
 public class Cliente implements Serializable {
-    private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
+	private static final long serialVersionUID = 1L;
 
-    private String nome;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long codigo;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_pessoa")
-    private TipoPessoa tipoPessoa;
+	@NotBlank(message = "Nome é obrigatório")
+	private String nome;
 
-    @Column(name = "cpf_cnpj")
-    private String cpfOuCnpj;
+	@NotNull(message = "Tipo pessoa é obrigatório")
+	@Enumerated(EnumType.STRING)
+	@Column(name = "tipo_pessoa")
+	private TipoPessoa tipoPessoa;
 
-    private String telefone;
+	@NotBlank(message = "CPF/CNPJ é obrigatório")
+	@CPF(groups = CpfGroup.class)
+	@CNPJ(groups = CnpjGroup.class)
+	@Column(name = "cpf_cnpj")
+	private String cpfOuCnpj;
 
-    private String email;
+	private String telefone;
 
-    @Embedded
-    private Endereco endereco;
+	@Email(message = "E-mail inválido")
+	private String email;
 
-    public Long getCodigo() {
-        return codigo;
-    }
+	@Embedded
+	private Endereco endereco;
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
+	public Long getCodigo() {
+		return codigo;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public TipoPessoa getTipoPessoa() {
-        return tipoPessoa;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public void setTipoPessoa(TipoPessoa tipoPessoa) {
-        this.tipoPessoa = tipoPessoa;
-    }
+	public TipoPessoa getTipoPessoa() {
+		return tipoPessoa;
+	}
 
-    public String getCpfOuCnpj() {
-        return cpfOuCnpj;
-    }
+	public void setTipoPessoa(TipoPessoa tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
+	}
 
-    public void setCpfOuCnpj(String cpfOuCnpj) {
-        this.cpfOuCnpj = cpfOuCnpj;
-    }
+	public String getCpfOuCnpj() {
+		return cpfOuCnpj;
+	}
 
-    public String getTelefone() {
-        return telefone;
-    }
+	public void setCpfOuCnpj(String cpfOuCnpj) {
+		this.cpfOuCnpj = cpfOuCnpj;
+	}
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
+	public String getTelefone() {
+		return telefone;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public Endereco getEndereco() {
-        return endereco;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
+	public Endereco getEndereco() {
+		return endereco;
+	}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-        return result;
-    }
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Cliente other = (Cliente) obj;
-        if (codigo == null) {
-            if (other.codigo != null)
-                return false;
-        } else if (!codigo.equals(other.codigo))
-            return false;
-        return true;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
 
-    
-
-    
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
+	}
 
 }
