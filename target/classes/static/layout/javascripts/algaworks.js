@@ -1,5 +1,6 @@
 var AW = AW || {};
 
+
 AW.onSidebarToggleRequest = function(event) {
   event.preventDefault();
   $(this).blur();
