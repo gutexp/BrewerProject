@@ -30,16 +30,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Override
-	public void configure(WebSecurity web) throws Exception {
+	public void configure(WebSecurity web) throws Exception {	//Aqui o web.ignoring está dando acesso a todos usuários acessarem as imagens e layouts das páginas sem fazer login
 		web.ignoring()
 			.antMatchers("/layout/**")
 			.antMatchers("/images/**");
 	}
 	
+	//os antMatchers seguidos do hasRoles checa se o usuário tem acesso às paginas especificadas no antMatchers
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
+				.antMatchers("/cidades/nova").hasRole("CADASTRAR_CIDADE")
+				.antMatchers("/usuarios/**").hasRole("CADASTRAR_USUARIO")
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
