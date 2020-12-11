@@ -58,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.accessDeniedPage("/403")
 				.and()
 			.sessionManagement()
+				.invalidSessionUrl("/login")
 				.maximumSessions(1)
 				.expiredUrl("/login");
 	}
