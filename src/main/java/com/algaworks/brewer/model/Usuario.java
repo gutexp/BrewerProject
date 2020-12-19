@@ -12,147 +12,149 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.algaworks.brewer.validation.AtributoConfirmacao;
 
-@AtributoConfirmacao(atributo = "senha", atributoConfirmacao = "confirmacaoSenha" , message = "As senhas inseridas não são iguais")
+@AtributoConfirmacao(atributo = "senha", atributoConfirmacao = "confirmacaoSenha"
+				, message = "Confirmação da senha não confere")
 @Entity
 @Table(name = "usuario")
+@DynamicUpdate
 public class Usuario implements Serializable {
-    private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
+	private static final long serialVersionUID = 1L;
 
-    @NotBlank(message = "Nome é obrigatório")
-    private String nome;
-    
-    @NotBlank(message = "E-mail é obrigatório")
-    @Email(message = "Email invalido")
-    private String email;
-    
-    
-    private String senha;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long codigo;
 
-    @Transient
-    private String confirmacaoSenha;
+	@NotBlank(message = "Nome é obrigatório")
+	private String nome;
 
-    private Boolean ativo;
+	@NotBlank(message = "E-mail é obrigatório")
+	@Email(message = "E-mail inválido")
+	private String email;
 
-    @Size(min = 1, message = "Selecione pelo menos um grupo")
-    @ManyToMany
-    @JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario"), inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
-    private List<Grupo> grupos;
+	private String senha;
+	
+	@Transient
+	private String confirmacaoSenha;
 
-    @Column(name = "data_nascimento")
-    private LocalDate dataNascimento;
+	private Boolean ativo;
 
-    public Long getCodigo() {
-        return codigo;
-    }
+	@Size(min = 1, message = "Selecione pelo menos um grupo")
+	@ManyToMany
+	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario")
+				, inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))	
+	private List<Grupo> grupos;
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
+	@Column(name = "data_nascimento")
+	private LocalDate dataNascimento;
 
-    public String getNome() {
-        return nome;
-    }
+	@PreUpdate
+	private void preUpdate() {
+		this.confirmacaoSenha = senha;
+	}
+	
+	public Long getCodigo() {
+		return codigo;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public String getSenha() {
-        return senha;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public Boolean getAtivo() {
-        return ativo;
-    }
+	public String getSenha() {
+		return senha;
+	}
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
-    }
+	public Boolean getAtivo() {
+		return ativo;
+	}
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-    
-    public List<Grupo> getGrupos() {
-        return grupos;
-    }
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
 
-    public void setGrupos(List<Grupo> grupos) {
-        this.grupos = grupos;
-    }
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
 
-    
-    
-    public String getConfirmacaoSenha() {
-        return confirmacaoSenha;
-    }
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
 
-    public void setConfirmacaoSenha(String confirmacaoSenha) {
-        this.confirmacaoSenha = confirmacaoSenha;
-    }
+	public List<Grupo> getGrupos() {
+		return grupos;
+	}
 
-    public boolean isNovo(){
-        return codigo == null;
-    }
-    
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-        return result;
-    }
+	public void setGrupos(List<Grupo> grupos) {
+		this.grupos = grupos;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Usuario other = (Usuario) obj;
-        if (codigo == null) {
-            if (other.codigo != null)
-                return false;
-        } else if (!codigo.equals(other.codigo))
-            return false;
-        return true;
-    }
+	public String getConfirmacaoSenha() {
+		return confirmacaoSenha;
+	}
 
+	public void setConfirmacaoSenha(String confirmacaoSenha) {
+		this.confirmacaoSenha = confirmacaoSenha;
+	}
+	
+	public boolean isNovo() {
+		return codigo == null;
+	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
 
-    
-
-    
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
+	}
 
 }
