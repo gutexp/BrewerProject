@@ -94,6 +94,7 @@
 	            <tbody>
 					<tr th:each="usuario : ${pagina.conteudo}">
 						<td>
+							<!-- o checkbox não é renderizado caso seja o usuario que está utilizando que esteja nessa linha -->
 							<div class="checkbox  aw-checkbox-no-margin" th:if="${#authentication.principal.usuario.codigo != usuario.codigo}">
 	            				<input type="checkbox" class="js-selecao" data:codigo="${usuario.codigo}">
 	            				<label></label>
