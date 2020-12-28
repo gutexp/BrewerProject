@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 
 import com.algaworks.brewer.model.Cerveja;
+import com.algaworks.brewer.session.TabelaItensVenda;
 
 import org.junit.Before;
 import org.junit.Test;
